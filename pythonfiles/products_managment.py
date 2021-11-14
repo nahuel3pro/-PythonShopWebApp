@@ -1,9 +1,11 @@
 import os
-from flask import Blueprint, render_template, flash
+from flask import Blueprint, render_template, flash, request
+from flask.helpers import url_for
 from flask_login import login_required, current_user
+from werkzeug.utils import redirect
 from .models import Producto, Administradores
 from .forms import UploadProduct
-from pythonfiles import app, db
+from pythonfiles import app, db, views
 
 products = Blueprint('products', __name__, template_folder='templates')
 
@@ -43,7 +45,34 @@ def add():
     else:
         return render_template('addProduct.html', form = form, user = current_user)
 
-@products.route('/EditProduct')
+@products.route('/EditProduct/<string:id>', methods = ['POST', 'GET'])
 @login_required
-def edit():
-    return 'Edit product'
+def edit(id):
+    form = UploadProduct()
+    value = Producto.query.filter_by(id = id).first()
+
+    for admin in Administradores.query.all():
+        if current_user.email == admin.email:
+            if form.validate_on_submit():
+                price_rounded = "{:.2f}".format(form.price.data)
+                producto2edit = Producto.query.filter_by(id = id).first()
+
+                producto2edit.producto_name = form.name.data
+                producto2edit.producto_inf = form.info.data
+
+                picture_file = save_picture(form.picture.data)
+
+                # producto2edit.producto_img = 
+                producto2edit.producto_cst = price_rounded
+                producto2edit.producto_img = picture_file
+
+                db.session.commit()
+
+            else:
+                form.name.data = value.producto_name
+                form.info.data = value.producto_inf
+                form.price.data = value.producto_cst
+
+                return render_template('editProduct.html', user = current_user, form = form)
+    
+    return redirect(url_for('views.homepage'))

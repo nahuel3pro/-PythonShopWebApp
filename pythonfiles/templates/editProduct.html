@@ -1,11 +1,13 @@
 {%extends 'base.html'%}
 
 {%block title%}
-| Add Product
+| Edit Product
 {%endblock%}
 
 {%block content%}
-Add Product
+
+<h1>Edit Product</h1>
+
 
 <form class="row g-3 container-fluid mt-2" method="POST" action="" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
@@ -48,7 +50,7 @@ Add Product
         {%endif%}
     </div>
 
-    <div class="border-top pt-3">
+    <div class="border-bottom pb-3">
         {{ form.picture.label() }}
         {{ form.picture(class='form-control-file') }}
 
@@ -60,8 +62,9 @@ Add Product
     </div>
 
     <div class="col-12">
-        {{ form.submit(class="btn btn-primary btn-outline-info") }}
+        {{ form.submit(class="btn btn-primary btn-outline-info", novalidate = True) }}
     </div>
+
     
 </form>
 
@@ -72,6 +75,5 @@ Add Product
         </button>
     </a>
 </div>
-
 
 {%endblock%}

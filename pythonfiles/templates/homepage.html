@@ -48,7 +48,7 @@ Hi {{user.user}}!
 
                             {%for i in admins%}
                                 {%if user.email == i.email%}
-                                <a class="d-grid gap-2 mb-3 mt-3" href="{{url_for('products.edit')}}">
+                                <a class="d-grid gap-2 mb-3 mt-3" href="/EditProduct/{{producto.id}}">
                                     <button class="btn btn-primary" type="button">Edit Product</button>
                                 </a>
                                 {%endif%}
