@@ -1,0 +1,69 @@
+{%extends 'base.html'%}
+
+{%block title%}
+| Add Product
+{%endblock%}
+
+{%block content%}
+Add Product
+
+<form class="row g-3 container-fluid mt-2" method="POST" action="" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="col-md-6">
+      {{ form.name.label(class_='form-label') }}
+      {% if form.name.errors%}            
+        {{ form.name(class='form-control is-invalid') }}
+        <div class="invalid-feedback">
+            {%for error in form.name.errors%}
+            <span> {{error}}</span>
+        {%endfor%}
+        </div>       
+        {%else%}
+            {{ form.name(class='form-control')}}
+        {%endif%}
+    </div>
+    
+    <div class="col-md-6">
+        {{ form.info.label(class='form-label') }}
+        {% if form.info.errors%}            
+        {{ form.info(class='form-control is-invalid') }}
+        <div class="invalid-feedback">
+            {%for error in form.info.errors%}
+            <span> {{error}}</span>
+        {%endfor%}
+        </div>       
+        {%else%}
+            {{ form.info(class='form-control')}}
+        {%endif%}
+    </div>
+    
+    <div class="col-md-6">
+        {{ form.price.label() }}
+        {{ form.price(class='form-control-file') }}
+        
+        {%if form.price.errors%}
+        {%for error in form.price.errors%}
+        <span class="text-danger"> {{error}}</span>
+        {%endfor%}
+        {%endif%}
+    </div>
+
+    <div class="border-top pt-3">
+        {{ form.picture.label() }}
+        {{ form.picture(class='form-control-file') }}
+
+        {%if form.picture.errors%}
+            {%for error in form.picture.errors%}
+            <span class="text-danger"> {{error}}</span>
+            {%endfor%}
+        {%endif%}
+    </div>
+
+    <div class="col-12">
+        {{ form.submit(class="btn btn-primary btn-outline-info") }}
+    </div>
+    
+</form>
+
+
+{%endblock%}
