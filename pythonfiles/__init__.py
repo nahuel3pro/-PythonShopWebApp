@@ -16,7 +16,7 @@ app.register_blueprint(auth, url_prefix = "")
 app.register_blueprint(products, url_prefix = "")
 
 #Inicinado el LoginManager
-from pythonfiles.models import Producto, Usuario
+from pythonfiles.models import Producto, Usuario, Administradores
 
 login_manager = LoginManager()
 login_manager.login_view='auth.login'
@@ -30,4 +30,4 @@ def load_user(id):
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 admin = Admin(app)
-admin.add_view(ModelView(Usuario, db.session))
+admin.add_view(ModelView(Administradores, db.session))

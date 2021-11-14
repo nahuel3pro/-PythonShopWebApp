@@ -23,7 +23,7 @@ def signup():
         return redirect(url_for('views.homepage', user = current_user))
 
 
-    return render_template('signup.html', form = form)
+    return render_template('signup.html', form = form, user = current_user)
 
 @auth.route('/login', methods = ['POST','GET'])
 def login():
@@ -36,16 +36,16 @@ def login():
             if check_password_hash(check.password,  form.password.data):
                 flash('Logged in successfully!', category = 'success')
                 login_user(check, remember = True)
-                return redirect(url_for('views.homepage'))
+                return redirect(url_for('views.homepage', user = current_user))
             else:
                 flash('Incorrect password', category = 'error')
         else:
             flash('Email does not exist', category = 'error')
 
-    return render_template('login.html', form = form)
+    return render_template('login.html', form = form, user = current_user)
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('views.home'))
+    return redirect(url_for('views.home', user = current_user))

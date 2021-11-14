@@ -41,4 +41,9 @@ def add():
         admins = Administradores.query.all()
         return render_template('homepage.html', user = current_user, producto = producto, admins = admins)
     else:
-        return render_template('addProduct.html', form = form)
+        return render_template('addProduct.html', form = form, user = current_user)
+
+@products.route('/EditProduct')
+@login_required
+def edit():
+    return 'Edit product'

@@ -45,6 +45,15 @@ Hi {{user.user}}!
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">More info</a></div>
+
+                            {%for i in admins%}
+                                {%if user.email == i.email%}
+                                <a class="d-grid gap-2 mb-3 mt-3" href="{{url_for('products.edit')}}">
+                                    <button class="btn btn-primary" type="button">Edit Product</button>
+                                </a>
+                                {%endif%}
+                            {%endfor%}
+
                         </div>
                     </div>
                 </div>
