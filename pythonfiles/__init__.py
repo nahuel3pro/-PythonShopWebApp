@@ -40,7 +40,7 @@ class MyModelView(ModelView):
 
         return access_admin
     
-    def innaccessible_callback(self, name, **kwargs):
+    def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('views.homepage'))
 
 admin = Admin(app)
