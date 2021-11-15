@@ -1,6 +1,6 @@
-from flask import Flask
+from flask import Flask, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9a47151b68c2bb469509f36e33cf2a79040dc4cd'
@@ -29,5 +29,28 @@ def load_user(id):
 #Flask_admin
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+
+class MyModelView(ModelView):
+    def is_accessible(self):
+        access_admin = False
+
+        for admin in Administradores.query.all():
+            if current_user.email == admin.email:
+                access_admin = True
+
+        return access_admin
+    
+    def innaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('views.homepage'))
+
 admin = Admin(app)
-admin.add_view(ModelView(Administradores, db.session))
+admin.add_view(MyModelView(Administradores, db.session))
+admin.add_view(MyModelView(Producto, db.session))
+
+
+
+            
+
+    # def inaccessible_callback(self, name, **kwargs):
+    #     # redirect to login page if user doesn't have access
+    #     return redirect(url_for('login', next=request.url))
