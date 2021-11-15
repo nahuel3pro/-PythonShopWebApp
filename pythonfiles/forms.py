@@ -31,10 +31,10 @@ class LoginForm(FlaskForm):
 
 class UploadProduct(FlaskForm):
     name = StringField('Product name: ',
-                           validators=[DataRequired(), Length(min = 0, max=20)])
+                           validators=[DataRequired(), Length(min = 0, max=40)])
     
     info = StringField('Product information: ',
-                        validators=[DataRequired(), Length(min = 0, max = 100)])
+                        validators=[DataRequired(), Length(min = 0, max = 1000)])
     
     picture = FileField('Upload a product image', validators=[DataRequired(), FileAllowed(['jpg', 'png'])])
     

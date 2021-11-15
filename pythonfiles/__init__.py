@@ -13,10 +13,12 @@ db.create_all(app = app)
 from .views import views
 from .auth import auth
 from .products_managment import products
+from .errors_handling import errors_handling
 
 app.register_blueprint(views, url_prefix = "")
 app.register_blueprint(auth, url_prefix = "")
 app.register_blueprint(products, url_prefix = "")
+app.register_blueprint(errors_handling, url_prefix = "")
 
 
 #Inicinado el LoginManager
