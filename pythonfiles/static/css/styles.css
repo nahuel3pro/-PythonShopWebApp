@@ -3,3 +3,10 @@
     grid-template-columns: repeat(2,1fr);
 }
 
+body{
+    background-image: linear-gradient(to Top, black 10%, #3b3838 25%, white 65%);
+}
+
+.card{
+    background-image: linear-gradient(to Bottom, grey 0%, white 100%);
+}
