@@ -8,12 +8,16 @@ db = SQLAlchemy(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bds/base_de_datos.db'
 db.create_all(app = app)
 
+
+# Blueprints
 from .views import views
 from .auth import auth
 from .products_managment import products
+
 app.register_blueprint(views, url_prefix = "")
 app.register_blueprint(auth, url_prefix = "")
 app.register_blueprint(products, url_prefix = "")
+
 
 #Inicinado el LoginManager
 from pythonfiles.models import Producto, Usuario, Administradores
@@ -26,10 +30,11 @@ login_manager.init_app(app)
 def load_user(id):
     return Usuario.query.get(int(id))
 
-#Flask_admin
+
+#Flask_admin configuration
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-
+# Delimiatando quienes pueden tener acceso al administrador
 class MyModelView(ModelView):
     def is_accessible(self):
         access_admin = False
@@ -42,15 +47,7 @@ class MyModelView(ModelView):
     
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('views.homepage'))
-
+#Iniciando y declarando las tablas que se pueden manejar
 admin = Admin(app)
 admin.add_view(MyModelView(Administradores, db.session))
 admin.add_view(MyModelView(Producto, db.session))
-
-
-
-            
-
-    # def inaccessible_callback(self, name, **kwargs):
-    #     # redirect to login page if user doesn't have access
-    #     return redirect(url_for('login', next=request.url))

@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+
+{%block title%}
+| {{producto.producto_name}}
+{%endblock%}
+
+
+{%block content%}
+<link rel="stylesheet" href="../static/css/styles.css">
+
+<h2>
+    {{producto.producto_name}}
+</h2>
+
+<div class="grid">
+    <div class="image">    
+        <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}">
+    </div>
+    
+    <div class="description">
+        <h1>{{producto.producto_inf}}</h1>
+    </div>
+    
+</div>
+
+{%endblock%}

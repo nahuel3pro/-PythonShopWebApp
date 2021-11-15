@@ -51,6 +51,12 @@ def edit(id):
     form = UploadProduct()
     value = Producto.query.filter_by(id = id).first()
 
+    #ELIMINAR IMAGEN ORIGINAL, SINO SE JUNTAAAN
+    imagen_original = value.producto_img
+    path = f'pythonfiles/static/product_pics/{imagen_original}'
+    
+
+
     for admin in Administradores.query.all():
         if current_user.email == admin.email:
             if form.validate_on_submit():
@@ -61,6 +67,7 @@ def edit(id):
                 producto2edit.producto_inf = form.info.data
 
                 picture_file = save_picture(form.picture.data)
+                os.remove(path)
 
                 # producto2edit.producto_img = 
                 producto2edit.producto_cst = price_rounded
@@ -75,4 +82,23 @@ def edit(id):
 
                 return render_template('editProduct.html', user = current_user, form = form)
     
+    return redirect(url_for('views.homepage'))
+
+
+@products.route('/DeleteProduct/<string:id>')
+@login_required
+def delete(id):
+    deleteProduct = Producto.query.get(id)
+    
+    path = f'pythonfiles/static/product_pics/{deleteProduct.producto_img}'
+    try:
+        os.remove(path)
+    except:
+        pass
+
+    flash(f'Product {deleteProduct.producto_name} deleted successfully', category = 'success')
+    
+    db.session.delete(deleteProduct)
+    db.session.commit()
+
     return redirect(url_for('views.homepage'))

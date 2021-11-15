@@ -19,3 +19,10 @@ def homepage():
     producto = Producto.query.all()
     admins = Administradores.query.all()
     return render_template('homepage.html', user = current_user, producto = producto, admins = admins)
+
+@views.route('ProductInfo/<string:id>')
+@login_required
+def productInfo(id):
+    product = Producto.query.get(id)
+
+    return render_template('showProduct.html', user = current_user, producto = product)
