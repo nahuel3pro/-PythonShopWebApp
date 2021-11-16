@@ -4,9 +4,9 @@
 }
 
 body{
-    background-image: linear-gradient(to Top, black 10%, #3b3838 25%, white 65%);
+    background: linear-gradient(to TOP, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 28%, rgba(59,56,56,1) 46%, rgba(91,85,85,1) 59%, rgba(135,128,128,1) 74%, rgba(255,255,255,1) 100%);
 }
 
 .card{
-    background-image: linear-gradient(to Bottom, grey 0%, white 100%);
+    background-image: linear-gradient(to Bottom, grey 30%, #C0C0C0 60%);
 }

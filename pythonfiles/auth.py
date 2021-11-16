@@ -35,7 +35,7 @@ def login():
         if check:
             if check_password_hash(check.password,  form.password.data):
                 flash('Logged in successfully!', category = 'success')
-                login_user(check, remember = True)
+                login_user(check, remember = form.remember.data)
                 return redirect(url_for('views.homepage', user = current_user))
             else:
                 flash('Incorrect password', category = 'error')

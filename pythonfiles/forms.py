@@ -36,10 +36,12 @@ class UploadProduct(FlaskForm):
     info = StringField('Product information: ',
                         validators=[DataRequired(), Length(min = 0, max = 1000)])
     
-    picture = FileField('Upload a product image', validators=[DataRequired(), FileAllowed(['jpg', 'png'])])
+    picture = FileField('Upload a product image', validators=[DataRequired(), 
+                                                            FileAllowed(['jpg', 'png'])])
     
     price = DecimalField('Price: $', rounding = None, places = 2, 
-                                    validators = [DataRequired(), NumberRange(min = 1, max = None)])
+                                    validators = [DataRequired(), 
+                                    NumberRange(min = 1, max = None)])
     # price = IntegerField('Price', validators = [NumberRange(min = 1, max = None)])
 
     submit = SubmitField('Add Product')

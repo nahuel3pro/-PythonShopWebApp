@@ -31,7 +31,7 @@ def save_picture(form_picture):
 @products.route('/AddProduct', methods = ['POST', 'GET'])
 @login_required
 def add():
-    if admin_access() == True:
+    if admin_access():
 
         form = UploadProduct()
 
@@ -62,7 +62,7 @@ def add():
 @products.route('/EditProduct/<string:id>', methods = ['POST', 'GET'])
 @login_required
 def edit(id):
-    if admin_access() == True:
+    if admin_access():
 
         form = UploadProduct()
         value = Producto.query.filter_by(id = id).first()
@@ -71,6 +71,7 @@ def edit(id):
         imagen_original = value.producto_img
         path = f'pythonfiles/static/product_pics/{imagen_original}'
         
+        form.submit.label.text = 'Update Product'
 
         if form.validate_on_submit():
             price_rounded = "{:.2f}".format(form.price.data)
@@ -80,7 +81,10 @@ def edit(id):
             producto2edit.producto_inf = form.info.data
 
             picture_file = save_picture(form.picture.data)
-            os.remove(path)
+            try:
+                os.remove(path)
+            except:
+                pass
 
             # producto2edit.producto_img = 
             producto2edit.producto_cst = price_rounded
@@ -101,7 +105,7 @@ def edit(id):
 @products.route('/DeleteProduct/<string:id>')
 @login_required
 def delete(id):
-    if admin_access() == True:
+    if admin_access():
 
         deleteProduct = Producto.query.get(id)
         
