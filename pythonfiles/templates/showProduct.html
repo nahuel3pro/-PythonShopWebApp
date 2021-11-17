@@ -6,17 +6,18 @@
 
 
 {%block content%}
+<link rel="stylesheet" href="../static/css/styles.css">
 
-<h2>
+<h2 mb-5 mt-5>
     {{producto.producto_name}}
 </h2>
 
-<div class="grid">
+<div class="grid border border-light">
     <div class="image">    
         <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}">
     </div>
     
-    <div class="description">
+    <div class="description gray">
         <h1>{{producto.producto_inf}}</h1>
     </div>
     

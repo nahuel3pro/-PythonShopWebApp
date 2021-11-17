@@ -7,7 +7,7 @@
 {%block content%}
 <link rel="stylesheet" href="../static/css/styles.css">
 
-Hi {{user.user}}!
+<p>Hi {{user.user}}!</p>
 
 
 {%for i in admins%}
@@ -50,9 +50,14 @@ Hi {{user.user}}!
                             </div>
                         </div>
                         <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href='ProductInfo/{{producto.id}}'>More info</a></div>
+                        <div class="card-footer pb-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center justify-content-space-evenly">
+                                <a class="btn btn-outline-dark mt-auto" href='ProductInfo/{{producto.id}}'>More info</a>
+                                <a class="btn btn-outline-dark mt-auto" href='#'>Add to Cart</a>                            
+                            </div>
+                        </div>
 
+                        <div class="justify-content-space-evenly">
                             {%for i in admins%}
                                 {%if user.email == i.email%}
                                 <a class="d-grid gap-2 mb-3 mt-3" href="/EditProduct/{{producto.id}}">

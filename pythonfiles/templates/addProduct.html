@@ -5,6 +5,8 @@
 {%endblock%}
 
 {%block content%}
+<link rel="stylesheet" href="../static/css/buttons.css">
+
 Add Product
 
 <form class="row g-3 container-fluid mt-2" method="POST" action="" enctype="multipart/form-data">
@@ -37,7 +39,7 @@ Add Product
         {%endif%}
     </div>
     
-    <div class="col-md-6 rounded-circle">
+    <div class="col-md-6 rounded-circle display-flex-direction-column">
         {{ form.price.label() }}
         {{ form.price(class='form-control-file') }}
         
@@ -48,8 +50,8 @@ Add Product
         {%endif%}
     </div>
 
-    <div class="border-top pt-3">
-        {{ form.picture.label() }}
+    <div class="border-bottom pb-3">
+        {{ form.picture.label(class="custom-file-upload") }}
         {{ form.picture(class='form-control-file') }}
 
         {%if form.picture.errors%}

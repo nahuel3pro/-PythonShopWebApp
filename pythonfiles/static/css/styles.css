@@ -1,6 +1,13 @@
+h1, h2, h3{
+    text-align: center;
+}
+
 .grid{
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: 50% 50%;
+}
+img{
+    max-width: 100%;
 }
 
 body{
@@ -9,4 +16,25 @@ body{
 
 .card{
     background-image: linear-gradient(to Bottom, grey 30%, #C0C0C0 60%);
+}
+
+@media (max-width: 768px) {
+    .grid{
+        display: grid;
+        grid-template-rows: 50% 50%;
+    }
+}
+
+.description{
+    background: linear-gradient(to BOTTOM, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 28%, rgba(59,56,56,1) 46%, rgba(91,85,85,1) 59%, rgba(135,128,128,1) 74%, rgba(255,255,255,1) 100%);
+    
+}
+
+.gray{
+    color: gray;
+}
+
+.justify-content-space-evenly{
+    display: flex;
+    justify-content: space-evenly;
 }
