@@ -22,6 +22,8 @@
 {%endfor%}
 
 <!-- <img src="../static/product_pics/{{producto.producto_name}}" alt="{{producto.producto_name}}"> -->
+
+<!-- align-items-center -->
 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 {%for producto in producto%}
     <div class="col mb-5">
@@ -36,7 +38,7 @@
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <!-- Product name-->
-                                <h5 class="fw-bolder">{{producto.producto_name}}</h5>
+                                <h4 class="fw-bolder" style="font-weight: 300 !important;">{{producto.producto_name}}</h4>
                                 <!-- Product reviews-->
                                 <div class="d-flex justify-content-center small text-warning mb-2">
                                     <div class="bi-star-fill"></div>
@@ -46,14 +48,19 @@
                                     <div class="bi-star-fill"></div>
                                 </div>
                                 <!-- Product price-->
-                                ${{producto.producto_cst}}
+                                <h4 class="">${{producto.producto_cst}}</h4>
                             </div>
                         </div>
                         <!-- Product actions-->
                         <div class="card-footer pb-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center justify-content-space-evenly">
                                 <a class="btn btn-outline-dark mt-auto" href='ProductInfo/{{producto.id}}'>More info</a>
-                                <a class="btn btn-outline-dark mt-auto" href='#'>Add to Cart</a>                            
+                                <a class="btn btn-outline-dark mt-auto d-flex" href='#'>
+                                    <!-- <span class="material-icons-outlined color-span" style="color: rgba(255,255,255,.55);">
+                                        shopping_cart
+                                      </span> -->
+                                    <span> Add to Cart</span>
+                                </a>                            
                             </div>
                         </div>
 

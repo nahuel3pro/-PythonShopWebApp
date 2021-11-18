@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, flash, abort
+from flask import Blueprint, render_template, flash, abort, redirect, url_for
 from flask.helpers import url_for
 from flask_login import login_required, current_user
 from werkzeug.utils import redirect
@@ -50,9 +50,8 @@ def add():
 
 
             flash('Product added succesfully!', category = 'success')
-            producto = Producto.query.all()
-            admins = Administradores.query.all()
-            return render_template('homepage.html', user = current_user, producto = producto, admins = admins)
+
+            return redirect(url_for('views.homepage'))
         else:
             return render_template('addProduct.html', form = form, user = current_user)
         
@@ -65,24 +64,27 @@ def edit(id):
     if admin_access():
 
         form = UploadProduct()
-        value = Producto.query.filter_by(id = id).first()
+        producto2edit = Producto.query.filter_by(id = id).first()
 
         #ELIMINAR IMAGEN ORIGINAL, SINO SE JUNTAAAN
-        imagen_original = value.producto_img
+        imagen_original = producto2edit.producto_img
         path = f'pythonfiles/static/product_pics/{imagen_original}'
         
         form.submit.label.text = 'Update Product'
 
         if form.validate_on_submit():
             price_rounded = "{:.2f}".format(form.price.data)
-            producto2edit = Producto.query.filter_by(id = id).first()
 
             producto2edit.producto_name = form.name.data
             producto2edit.producto_inf = form.info.data
 
             picture_file = save_picture(form.picture.data)
+            print(picture_file)
             try:
-                os.remove(path)
+                if picture_file == imagen_original:
+                    pass
+                else:
+                    os.remove(path)
             except:
                 pass
 
@@ -92,10 +94,12 @@ def edit(id):
 
             db.session.commit()
 
+            flash('Product updated successfully')
+            return redirect(url_for('views.homepage'))
         else:
-            form.name.data = value.producto_name
-            form.info.data = value.producto_inf
-            form.price.data = value.producto_cst
+            form.name.data = producto2edit.producto_name
+            form.info.data = producto2edit.producto_inf
+            form.price.data = producto2edit.producto_cst
 
             return render_template('editProduct.html', user = current_user, form = form)
     

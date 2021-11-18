@@ -38,3 +38,7 @@ body{
     display: flex;
     justify-content: space-evenly;
 }
+
+h4{
+    font-weight: 200 !important;
+}
