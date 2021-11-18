@@ -35,7 +35,7 @@
                         <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}">
                         
                         <!-- Product details-->
-                        <div class="card-body p-4">
+                        <div class="card-body p-4" style="font-family: Raleway;">
                             <div class="text-center border-bottom-dark">
                                 <!-- Product name-->
                                 <h4 class="fw-bolder" style="font-weight: 300 !important;">{{producto.producto_name}}</h4>
@@ -53,15 +53,15 @@
                         </div>
                         <!-- Product actions-->
                         <div class="card-footer pb-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center justify-content-space-evenly carrito">
+                            <div class="text-center justify-content-space-evenly">
                                 <a class="btn btn-outline-dark mt-auto" href='ProductInfo/{{producto.id}}'>More info</a>
                                 <a class="btn btn-outline-dark mt-auto d-flex" href='#'>
                                     <!-- <span class="material-icons-outlined color-span" style="color: rgba(255,255,255,.55);">
                                         shopping_cart
                                       </span> -->
                                       
-                                    <span class="material-icons-outlined color-span">
-                                        shopping_cart
+                                    <span class="material-icons-outlined">
+                                        add_shopping_cart
                                     </span>
                                 
                                     <span> Add to Cart</span>

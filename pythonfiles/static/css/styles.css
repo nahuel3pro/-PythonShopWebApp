@@ -26,8 +26,12 @@ body{
 }
 
 .description{
-    background: linear-gradient(to BOTTOM, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 28%, rgba(59,56,56,1) 46%, rgba(91,85,85,1) 59%, rgba(135,128,128,1) 74%, rgba(255,255,255,1) 100%);
-    
+    background: white;
+    font-family: Raleway;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem
+;
 }
 
 .gray{

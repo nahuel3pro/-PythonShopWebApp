@@ -8,7 +8,7 @@
 {%block content%}
 <link rel="stylesheet" href="../static/css/styles.css">
 
-<h2 mb-5 mt-5>
+<h2 class="mb-5 mt-5" style="font-family: 'Libre Baskerville', serif;">
     {{producto.producto_name}}
 </h2>
 
@@ -17,8 +17,10 @@
         <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}">
     </div>
     
-    <div class="description gray">
+    <div class="description">
         <h1>{{producto.producto_inf}}</h1>
+
+        <h3>${{producto.producto_cst}}</h3>
     </div>
     
 </div>
