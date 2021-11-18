@@ -80,13 +80,14 @@ def edit(id):
 
             picture_file = save_picture(form.picture.data)
             print(picture_file)
-            try:
-                if picture_file == imagen_original:
-                    pass
-                else:
-                    os.remove(path)
-            except:
+                
+            if picture_file == imagen_original:
                 pass
+            else:
+                try:
+                    os.remove(path)
+                except:
+                    pass
 
             # producto2edit.producto_img = 
             producto2edit.producto_cst = price_rounded
