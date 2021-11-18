@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField,FileField, DecimalField
-from wtforms.validators import DataRequired, Length, Email, equal_to, NumberRange
+from wtforms.validators import DataRequired, Length, Email, equal_to, NumberRange, InputRequired
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', 
@@ -38,7 +38,7 @@ class UploadProduct(FlaskForm):
     
     picture = FileField('Upload a product image', validators=[DataRequired(), 
                                                             FileAllowed(['jpg', 'png'])])
-    
+
     price = DecimalField('Price: $', rounding = None, places = 2, 
                                     validators = [DataRequired(), 
                                     NumberRange(min = 1, max = None)])

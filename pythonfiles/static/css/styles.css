@@ -46,3 +46,11 @@ h4{
 .border-bottom-dark{
     border-bottom: 1px grey ridge;
 }
+
+.carrito{
+    color: black !important;
+}
+
+.carrito:hover{
+    color: white !important;
+}
