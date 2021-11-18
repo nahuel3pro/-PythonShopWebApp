@@ -3,9 +3,10 @@ from flask import Blueprint, render_template, flash, abort, redirect, url_for
 from flask.helpers import url_for
 from flask_login import login_required, current_user
 from werkzeug.utils import redirect
-from .models import Producto, Administradores
+from .models import Producto
 from .forms import UploadProduct
 from pythonfiles import app, db, admin_access
+import secrets
 
 products = Blueprint('products', __name__, template_folder='templates')
 
@@ -20,8 +21,9 @@ products = Blueprint('products', __name__, template_folder='templates')
 #     return access_admin
 
 def save_picture(form_picture):
-    f_name, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = f_name + f_ext
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/product_pics', picture_fn)
     form_picture.save(picture_path)
 
