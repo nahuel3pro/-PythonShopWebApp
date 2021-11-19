@@ -5,7 +5,8 @@
 {%endblock%}
 
 {%block content%}
-<link rel="stylesheet" href="../static/css/styles.css">
+<!-- <link rel="stylesheet" href="../static/css/styles.css"> -->
+<link rel="stylesheet" href="{{url_for('static', filename = 'css/styles.css')}}">
 
 <p>Hi {{user.user}}!</p>
 
@@ -32,13 +33,14 @@
                 <div class="card h-100">
                         <!-- Product image-->
                         
-                        <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}">
+                        <!-- <img src="{{url_for('static', filename = 'product_pics/{producto.producto_img}')}}" alt="{{producto.producto_img}}"> -->
+                        <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}" class="img">
                         
                         <!-- Product details-->
                         <div class="card-body p-4" style="font-family: Raleway;">
                             <div class="text-center border-bottom-dark">
                                 <!-- Product name-->
-                                <h4 class="fw-bolder" style="font-weight: 300 !important;">{{producto.producto_name}}</h4>
+                                <h4 class="fw-bolder name" style="font-weight: 300 !important;">{{producto.producto_name}}</h4>
                                 <!-- Product reviews-->
                                 <div class="d-flex justify-content-center small text-warning mb-2">
                                     <div class="bi-star-fill"></div>
@@ -48,14 +50,14 @@
                                     <div class="bi-star-fill"></div>
                                 </div>
                                 <!-- Product price-->
-                                <h4 class="">${{producto.producto_cst}}</h4>
+                                <h4 class="price" id='price'>${{producto.producto_cst}}</h4>
                             </div>
                         </div>
                         <!-- Product actions-->
                         <div class="card-footer pb-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center justify-content-space-evenly">
                                 <a class="btn btn-outline-dark mt-auto" href='ProductInfo/{{producto.id}}'>More info</a>
-                                <a class="btn btn-outline-dark mt-auto d-flex" href='#'>
+                                <a class="btn btn-outline-dark mt-auto d-flex add-cart" href='#' style="align-items: center;">
                                     <!-- <span class="material-icons-outlined color-span" style="color: rgba(255,255,255,.55);">
                                         shopping_cart
                                       </span> -->
@@ -88,4 +90,7 @@
         </div>        
         {%endfor%}
     </div>
+
+
+<script src="{{url_for('static', filename ='/js/cart.js')}}"></script>
 {%endblock%}

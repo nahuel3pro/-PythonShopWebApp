@@ -51,13 +51,8 @@ from flask_admin.contrib.sqla import ModelView
 # Delimiatando quienes pueden tener acceso al administrador
 class MyModelView(ModelView):
     def is_accessible(self):
-        access_admin = False
 
-        for admin in Administradores.query.all():
-            if current_user.email == admin.email:
-                access_admin = True
-
-        return access_admin
+        return admin_access()
     
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('views.homepage'))
