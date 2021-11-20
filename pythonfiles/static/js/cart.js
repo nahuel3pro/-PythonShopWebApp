@@ -25,6 +25,7 @@ for (let i = 0; i< price.length; i++){
 for (let i=0; i < carts.length; i++){
     carts[i].addEventListener('click', () => {
         cartNumbers(products[i]);
+        totalCost(products[i]);
     })
 }
 
@@ -48,10 +49,18 @@ function cartNumbers(product) {
 
 function setItems(product){
     let cartItems = localStorage.getItem('productsInCart');
-
     cartItems = JSON.parse(cartItems);
+
     
     if (cartItems!= null){
+
+        if(cartItems[product.name] == undefined){
+            cartItems = {
+                ...cartItems,
+                [product.name]: product
+            }
+        }
+
         cartItems[product.name].inCart +=1;
         
     }else{
@@ -72,6 +81,21 @@ function loadCartNumbers(){
     if (productNumbers){
         document.querySelector('.cart-number').textContent = productNumbers;
     }
+}
+
+
+function totalCost(product){
+    let cartCost = localStorage.getItem('totalCost');
+    
+    
+    if(cartCost != null){
+        localStorage.setItem('totalCost', parseInt(cartCost) + parseInt(product.price));                
+        console.log(typeof parseInt(cartCost), parseInt(cartCost));
+    }else{
+        localStorage.setItem('totalCost', parseInt(product.price));        
+        console.log(typeof parseInt(cartCost), parseInt(cartCost));
+    }
+    
 }
 
 loadCartNumbers();

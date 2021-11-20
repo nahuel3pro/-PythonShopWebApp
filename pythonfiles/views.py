@@ -26,3 +26,8 @@ def productInfo(id):
     product = Producto.query.get(id)
 
     return render_template('showProduct.html', user = current_user, producto = product)
+
+@views.route('/Cart')
+def cart():
+    
+    return render_template ('cart.html', user = current_user)
