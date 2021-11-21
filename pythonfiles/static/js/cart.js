@@ -97,6 +97,10 @@ function displayCart() {
     let cartItems = localStorage.getItem('productsInCart');
     cartItems = JSON.parse(cartItems);
 
+    let quantity_p = document.getElementsByClassName('quantity')
+
+    console.log(quantity_p)
+
     let cartCost = localStorage.getItem('totalCost');
 
     let cart_confirm = document.querySelector('.reemplazar_carrito');
@@ -113,7 +117,7 @@ function displayCart() {
                 <tr>
                     <th scope="row" class="width-img"><img src="../static/product_pics/${item.img}" class="img-cart" alt="dd"></th>
                     <th class='text-center'>${item.name}</th>
-                    <td class="max-width-q"><input type="number" name="" class='width-img' value=${item.inCart}></td>
+                    <td class="max-width-q">${item.inCart}</td>
                     <td class="price_product">${item.price * item.inCart}</td>
                 </tr>
                             `
