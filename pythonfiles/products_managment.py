@@ -21,13 +21,14 @@ products = Blueprint('products', __name__, template_folder='templates')
 #     return access_admin
 
 def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
+    random_hex = secrets.token_hex(8)        
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/product_pics', picture_fn)
     form_picture.save(picture_path)
 
     return picture_fn
+
 
 
 @products.route('/AddProduct', methods = ['POST', 'GET'])
@@ -43,8 +44,8 @@ def add():
             print(form.name.data, price_rounded, form.info.data, form.picture.data)
 
             picture_file = save_picture(form.picture.data)
-
             print(picture_file)
+
 
             new_product = Producto(producto_name = form.name.data, producto_inf = form.info.data, producto_img = picture_file, producto_cst = price_rounded)
             db.session.add(new_product)

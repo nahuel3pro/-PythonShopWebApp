@@ -42,3 +42,15 @@ body{margin-top:20px;}
 .font-weight-semibold {
     font-weight: 600 !important;
 }
+
+.img-cart{
+    max-width: 100%;
+}
+
+.width-img{
+    max-width: 6rem;
+}
+
+.max-width-q{
+    max-width: 1rem;
+}

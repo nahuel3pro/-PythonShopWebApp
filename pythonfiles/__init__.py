@@ -60,4 +60,5 @@ class MyModelView(ModelView):
 admin = Admin(app)
 admin.add_view(MyModelView(Administradores, db.session))
 admin.add_view(MyModelView(Producto, db.session))
+admin.add_view(MyModelView(Usuario, db.session))
 

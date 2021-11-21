@@ -58,3 +58,14 @@ h4{
 .carrito:hover{
     color: white !important;
 }
+
+@media (max-width: 568px) {
+    .flex-column-f{
+        flex-direction: column;
+        gap: 5px;
+    }
+    .add-cart{
+        justify-content: center;
+    }
+    
+}
