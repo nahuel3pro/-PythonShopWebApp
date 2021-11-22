@@ -1,5 +1,7 @@
+import re
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
+from .forms import UploadProduct
 from .models import Producto, Administradores
 
 views = Blueprint('views', __name__, template_folder='templates')
@@ -30,4 +32,16 @@ def productInfo(id):
 @views.route('/Cart')
 def cart():
     
-    return render_template ('cart.html', user = current_user)
+    return render_template('cart.html', user = current_user)
+
+@views.route('/prueba', methods = ['POST', 'GET'])
+def prueba():
+    form = UploadProduct()
+
+    if form.is_submitted:
+        if form.picture.data:
+            print('hay data')
+        else:
+            print('no hay data')
+        print(type(form.picture.data))
+    return render_template('prueba.html', user = current_user , form = form)

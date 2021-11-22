@@ -48,10 +48,10 @@ body{margin-top:20px;}
 }
 
 .width-img{
-    max-width: 6rem;
+    max-width: 100%;
 }
 
-.max-widthq{
+.max-width-q{
     max-width: 1rem;
 }
 

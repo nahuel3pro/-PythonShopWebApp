@@ -138,7 +138,7 @@ function displayCart() {
             .map(item => {
                 cart_confirm.innerHTML += `
                 <tr>
-                    <th scope="row" class="width-img"><img src="../static/product_pics/${item.img}" class="img-cart" alt="dd"></th>
+                    <th scope="row" class="" style='max-width: 12rem'><img src="../static/product_pics/${item.img}" class="img-cart" alt="dd"></th>
                     <th class='text-center'>
                     <div class='producto_display'>
                         <p class='nombre'>${item.name}</p>

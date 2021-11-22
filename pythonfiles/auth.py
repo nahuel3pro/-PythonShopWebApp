@@ -12,14 +12,20 @@ def signup():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        flash('Registration completed successfully!', category = 'success')
+
+        for email in Usuario.query.all():
+            if form.email.data == email.email:
+                flash('Email already exists!', category='error')
+                return redirect(url_for('auth.signup'))
 
         new_user = Usuario(email = form.email.data, user = form.username.data,
-                         password = generate_password_hash(form.password.data, method = 'sha256'))
+                            password = generate_password_hash(form.password.data, method = 'sha256'))
+
 
         db.session.add(new_user)
         db.session.commit()
 
+        flash('Registration completed successfully!', category = 'success')
         return redirect(url_for('views.homepage', user = current_user))
 
 

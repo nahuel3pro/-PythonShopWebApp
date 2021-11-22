@@ -29,6 +29,12 @@ def save_picture(form_picture):
 
     return picture_fn
 
+def delete_image(path):
+    try:
+        os.remove(path)
+    except:
+        pass
+
 
 
 @products.route('/AddProduct', methods = ['POST', 'GET'])
@@ -43,8 +49,11 @@ def add():
             
             print(form.name.data, price_rounded, form.info.data, form.picture.data)
 
-            picture_file = save_picture(form.picture.data)
-            print(picture_file)
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                print(picture_file)
+            else:
+                picture_file = 'default.png'
 
 
             new_product = Producto(producto_name = form.name.data, producto_inf = form.info.data, producto_img = picture_file, producto_cst = price_rounded)
@@ -72,7 +81,7 @@ def edit(id):
         #ELIMINAR IMAGEN ORIGINAL, SINO SE JUNTAAAN
         imagen_original = producto2edit.producto_img
         path = f'pythonfiles/static/product_pics/{imagen_original}'
-        
+
         form.submit.label.text = 'Update Product'
 
         if form.validate_on_submit():
@@ -81,16 +90,20 @@ def edit(id):
             producto2edit.producto_name = form.name.data
             producto2edit.producto_inf = form.info.data
 
-            picture_file = save_picture(form.picture.data)
-            print(picture_file)
-                
-            if picture_file == imagen_original:
-                pass
-            else:
-                try:
-                    os.remove(path)
-                except:
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                print(picture_file)
+
+                if imagen_original != 'default.png':
+                    delete_image(path)
+                else:
                     pass
+            else:
+                if imagen_original !='default.png':
+                    picture_file = imagen_original
+                else:
+                    picture_file = 'default.png'
+
 
             # producto2edit.producto_img = 
             producto2edit.producto_cst = price_rounded
@@ -117,10 +130,13 @@ def delete(id):
 
         deleteProduct = Producto.query.get(id)
         
-        path = f'pythonfiles/static/product_pics/{deleteProduct.producto_img}'
-        try:
-            os.remove(path)
-        except:
+        img = deleteProduct.producto_img
+
+        path = f'pythonfiles/static/product_pics/{img}'
+        
+        if img != 'default.png':
+            delete_image(path)
+        else:
             pass
 
         flash(f'Product {deleteProduct.producto_name} deleted successfully', category = 'success')
