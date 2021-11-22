@@ -54,3 +54,14 @@ body{margin-top:20px;}
 .max-widthq{
     max-width: 1rem;
 }
+
+.producto_display{
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.nombre{
+    font-family: 'Fira Sans', sans-serif;
+    font-size:2rem;
+}

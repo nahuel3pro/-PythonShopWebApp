@@ -5,22 +5,32 @@ let price = document.querySelectorAll('.price')
 let name = document.querySelectorAll('.name')
 let img = document.querySelectorAll('.img')
 
+let quantity_p = document.getElementsByClassName('quantity')
+
+console.log(quantity_p)
 // Rellenando valores de los productos en una variable
 
 let products = []
 
 for (let i = 0; i < price.length; i++) {
     products.push(
-        {'price': price[i].textContent, 'img': img[i].getAttribute('alt'), 'name': name[i].textContent, 'inCart': 0}
+        {'price': price[i].textContent, 'img': img[i].getAttribute('alt'),
+                 'name': name[i].textContent, 'inCart': 0}
     )
 }
 
-/// -------->
+// -----------------------------------------------------
 
+
+// Cuando presionan en añadir al carrito
 for (let i = 0; i < carts.length; i++) {
     carts[i].addEventListener('click', () => {
+        // Cuando le dan click al botón, llama a las dos funciones
+        
         cartNumbers(products[i]);
         totalCost(products[i]);
+
+
     })
 }
 
@@ -45,6 +55,7 @@ function cartNumbers(product) {
 
 }
 
+// Crando almacenamiento de los productos en el local storage
 function setItems(product) {
     let cartItems = localStorage.getItem('productsInCart');
     cartItems = JSON.parse(cartItems);
@@ -72,6 +83,7 @@ function setItems(product) {
     localStorage.setItem('productsInCart', JSON.stringify(cartItems));
 }
 
+//Cargando los productos disponibles en el local storage
 function loadCartNumbers() {
     let productNumbers = localStorage.getItem('cartNumbers');
 
@@ -82,8 +94,21 @@ function loadCartNumbers() {
     }
 }
 
+//Poniendo el precio total en el local storage
+// function totalCost(product) {
+//     let cartCost = localStorage.getItem('totalCost');
+
+//     if (cartCost != null) {
+//         localStorage.setItem('totalCost', parseInt(cartCost) + parseInt(product.price));
+//     } else {
+//         localStorage.setItem('totalCost', parseInt(product.price));
+//     }
+
+// }
+
 function totalCost(product) {
     let cartCost = localStorage.getItem('totalCost');
+    let quantity_p = document.getElementsByClassName('quantity')
 
     if (cartCost != null) {
         localStorage.setItem('totalCost', parseInt(cartCost) + parseInt(product.price));
@@ -93,13 +118,11 @@ function totalCost(product) {
 
 }
 
+//Cargando productos ya disponibles en el local storage
 function displayCart() {
     let cartItems = localStorage.getItem('productsInCart');
     cartItems = JSON.parse(cartItems);
 
-    let quantity_p = document.getElementsByClassName('quantity')
-
-    console.log(quantity_p)
 
     let cartCost = localStorage.getItem('totalCost');
 
@@ -116,8 +139,13 @@ function displayCart() {
                 cart_confirm.innerHTML += `
                 <tr>
                     <th scope="row" class="width-img"><img src="../static/product_pics/${item.img}" class="img-cart" alt="dd"></th>
-                    <th class='text-center'>${item.name}</th>
-                    <td class="max-width-q">${item.inCart}</td>
+                    <th class='text-center'>
+                    <div class='producto_display'>
+                        <p class='nombre'>${item.name}</p>
+                        <button class='btn-danger btn'>Delete product from cart</button>
+                    </div>
+                        </th>
+                    <td class="max-width-q"><input type=number value=${item.inCart} class='quantity width-img'></td>
                     <td class="price_product">${item.price * item.inCart}</td>
                 </tr>
                             `
