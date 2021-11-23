@@ -34,14 +34,3 @@ def cart():
     
     return render_template('cart.html', user = current_user)
 
-@views.route('/prueba', methods = ['POST', 'GET'])
-def prueba():
-    form = UploadProduct()
-
-    if form.is_submitted:
-        if form.picture.data:
-            print('hay data')
-        else:
-            print('no hay data')
-        print(type(form.picture.data))
-    return render_template('prueba.html', user = current_user , form = form)
