@@ -1,3 +1,5 @@
+# Todo relacionado al manejo de la cuenta de usuarios
+
 from flask import Blueprint, render_template, flash, redirect, url_for
 from .forms import RegistrationForm, LoginForm
 from .models import Usuario

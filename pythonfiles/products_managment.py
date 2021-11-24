@@ -20,7 +20,12 @@ products = Blueprint('products', __name__, template_folder='templates')
     
 #     return access_admin
 
+
+DEFAULT_IMG = 'default.png'
+
+
 def save_picture(form_picture):
+    #Se le pone un nombre aleatorio al nuevo archivo para que sea propio
     random_hex = secrets.token_hex(8)        
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
@@ -49,11 +54,12 @@ def add():
             
             print(form.name.data, price_rounded, form.info.data, form.picture.data)
 
+            #Verificando si se mandó una imagen o no
             if form.picture.data:
                 picture_file = save_picture(form.picture.data)
                 print(picture_file)
             else:
-                picture_file = 'default.png'
+                picture_file = DEFAULT_IMG
 
 
             new_product = Producto(producto_name = form.name.data, producto_inf = form.info.data, producto_img = picture_file, producto_cst = price_rounded)
@@ -94,15 +100,13 @@ def edit(id):
                 picture_file = save_picture(form.picture.data)
                 print(picture_file)
 
-                if imagen_original != 'default.png':
+                if imagen_original != DEFAULT_IMG:
                     delete_image(path)
-                else:
-                    pass
             else:
-                if imagen_original !='default.png':
+                if imagen_original !=DEFAULT_IMG:
                     picture_file = imagen_original
                 else:
-                    picture_file = 'default.png'
+                    picture_file = DEFAULT_IMG
 
 
             # producto2edit.producto_img = 
@@ -134,10 +138,9 @@ def delete(id):
 
         path = f'pythonfiles/static/product_pics/{img}'
         
-        if img != 'default.png':
+        if img != DEFAULT_IMG:
             delete_image(path)
-        else:
-            pass
+
 
         flash(f'Product {deleteProduct.producto_name} deleted successfully', category = 'success')
         

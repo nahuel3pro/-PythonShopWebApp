@@ -31,6 +31,8 @@ def admin_access():
     return access_admin
 
 
+
+
 # Blueprints
 from .views import views
 from .auth import auth
@@ -56,6 +58,7 @@ class MyModelView(ModelView):
     
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('views.homepage'))
+
 #Iniciando y declarando las tablas que se pueden manejar
 admin = Admin(app)
 admin.add_view(MyModelView(Administradores, db.session))
