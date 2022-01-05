@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable radix */
 const add = document.querySelectorAll('.add-cart');
 const price = document.querySelectorAll('.price');
 const name = document.querySelectorAll('.name');
@@ -54,9 +56,35 @@ function loadCartNumbers() {
 function totalCostDisplay(totalCostCar) {
   const total = document.querySelector('.total');
 
-  total.innerHTML += `
+  total.innerHTML = `
     <h2>Total: $${totalCostCar}</h2>
     `;
+}
+
+function detectarCambiosValues(product) {
+  const $quantityPrice = document.querySelectorAll('.quantity');
+  const $price = document.querySelectorAll('.price_product');
+  const $producto = document.querySelectorAll('.nombre');
+
+  let cartItems = localStorage.getItem('productsInCart');
+  cartItems = JSON.parse(cartItems);
+
+  $quantityPrice.forEach((value, index) => {
+    value.addEventListener('change', () => {
+      const totalCost1 = localStorage.getItem('totalCost');
+
+      //   const totalCostCart = parseInt(tC) + parseInt($price[index].textContent) * value.valueAsNumber;
+      //   localStorage.setItem('totalCost1', totalCostCart);
+      //   console.log(value.valueAsNumber);
+      cartItems[$producto[index].textContent].inCart = value.valueAsNumber - 1;
+
+      localStorage.setItem('totalCost', parseInt(totalCost1) + parseInt(cartItems[$producto[index].textContent].price));
+
+      const totalPrice = parseInt(totalCost1) + parseInt(cartItems[$producto[index].textContent].price);
+      //   localStorage.setItem('totalCost', parseInt(cartCost) + parseInt(product.price));
+      totalCostDisplay(totalPrice);
+    });
+  });
 }
 
 function displayCart() {
@@ -87,8 +115,8 @@ function displayCart() {
 
       return null;
     });
-
     totalCostDisplay(totalCostCart);
+    detectarCambiosValues();
   }
 }
 
