@@ -4,6 +4,10 @@
 
     {%block content%}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet"> 
+
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat:700' rel='stylesheet' type='text/css'>
     <style>
       @import url(//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css);
@@ -44,24 +48,26 @@
     </div>
 
     <div class="container-fluid d-flex flex-column align-items-center" id="nothing">
-        <h2>It looks like you don't have anything in the car yet...</h2>
+        <h2 style="font-family: 'Libre Baskerville', serif;">It looks like you don't have anything in the car yet...</h2>
         <img class="w-50 p-3 img-fluid" src="../static/icons/shopping-cart.png" alt="shoping_icon">
-        <h1>Go to the <a href="{{url_for('views.homepage')}}" class="text-decoration-none">store</a> to add some products!</h1>
+        <h1 style="font-family: 'Libre Baskerville', serif;">Go to the <a href="{{url_for('views.homepage')}}" class="text-decoration-none">store</a> to add some products!</h1>
     </div>
 
 
     <div id="thanks" class="d-none border border-success rounded">
-        <header class="site-header" id="header">
-          <h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
-        </header>
-      
-        <div class="main-content">
-          <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
-          <p class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for buying in our store, it means a lot to us!.</p>
+        <div class="">
+            <header class="site-header" id="header">
+                <h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
+            </header>
+            
+            <div class="main-content">
+                <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
+                <p style="font-family: 'Libre Baskerville', serif;" class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for buying in our store, it means a lot to us!.</p>
+            </div>
+            
+            <footer class="site-footer" id="footer">
+                <p style="font-family: 'Libre Baskerville', serif;" class="site-footer__fineprint" id="fineprint">An email has been sent to you with the receipt!</p>
+            </footer>
         </div>
-      
-        <footer class="site-footer" id="footer">
-          <p class="site-footer__fineprint" id="fineprint">An email has been sent to you with the receipt!</p>
-        </footer>
-      </div>
+    </div>
         {%endblock%}
