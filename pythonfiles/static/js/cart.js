@@ -221,7 +221,6 @@ function markAsUnavailable() {
   const $add = document.querySelectorAll('.add-cart');
 
   if (window.location.pathname === '/HomePage') {
-    console.log('homepage');
     let productsInCart = localStorage.getItem('productsInCart');
     productsInCart = JSON.parse(productsInCart);
 
