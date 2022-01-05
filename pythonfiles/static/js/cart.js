@@ -4,25 +4,24 @@ const add = document.querySelectorAll('.add-cart');
 const price = document.querySelectorAll('.price');
 const name = document.querySelectorAll('.name');
 const img = document.querySelectorAll('.img');
-// const quantityPrice = document.getElementsByClassName('quantity');
 
 const productos = [];
 
-function setItems(producto) {
+function setItems(product) {
   let cartItems = localStorage.getItem('productsInCart');
   cartItems = JSON.parse(cartItems);
 
-  if (cartItems != null && cartItems[producto.name] === undefined) {
+  if (cartItems != null && cartItems[product.name] === undefined) {
     cartItems = {
       ...cartItems,
-      [producto.name]: producto,
+      [product.name]: product,
     };
-    producto.inCart = 1;
+    product.inCart = 1;
   } else {
-    producto.inCart = 1;
+    product.inCart = 1;
 
     cartItems = {
-      [producto.name]: producto,
+      [product.name]: product,
     };
   }
 
@@ -53,36 +52,47 @@ function loadCartNumbers() {
   }
 }
 
-function totalCostDisplay(totalCostCar) {
+function totalCostDisplay(totalCostCart) {
   const total = document.querySelector('.total');
 
   total.innerHTML = `
-    <h2>Total: $${totalCostCar}</h2>
+    <h2>Total: $${totalCostCart}</h2>
     `;
 }
 
-function detectarCambiosValues(product) {
+function detectarCambiosValues() {
   const $quantityPrice = document.querySelectorAll('.quantity');
-  const $price = document.querySelectorAll('.price_product');
-  const $producto = document.querySelectorAll('.nombre');
+  const $product = document.querySelectorAll('.nombre');
 
+  // Los productos en el carrito y sus propiedades (Se usa el inCart para saber su cantidad ordenada)
   let cartItems = localStorage.getItem('productsInCart');
   cartItems = JSON.parse(cartItems);
 
   $quantityPrice.forEach((value, index) => {
     value.addEventListener('change', () => {
-      const totalCost1 = localStorage.getItem('totalCost');
+      if (value.valueAsNumber > 0) {
+        // Precio total en local storage
+        const costoTotal = localStorage.getItem('totalCost');
+        // Los productos en el carrito y sus propiedades (Se usa el inCart para saber su cantidad ordenada)
+        let productsInCart = localStorage.getItem('productsInCart');
+        productsInCart = JSON.parse(productsInCart);
 
-      //   const totalCostCart = parseInt(tC) + parseInt($price[index].textContent) * value.valueAsNumber;
-      //   localStorage.setItem('totalCost1', totalCostCart);
-      //   console.log(value.valueAsNumber);
-      cartItems[$producto[index].textContent].inCart = value.valueAsNumber - 1;
+        let totalPrice;
 
-      localStorage.setItem('totalCost', parseInt(totalCost1) + parseInt(cartItems[$producto[index].textContent].price));
+        if (value.valueAsNumber > productsInCart[$product[index].textContent].inCart) {
+          totalPrice = parseInt(costoTotal) + parseInt(cartItems[$product[index].textContent].price) * (value.valueAsNumber - productsInCart[$product[index].textContent].inCart);
+          productsInCart[$product[index].textContent].inCart = value.valueAsNumber;
+        } else {
+          totalPrice = parseInt(costoTotal) - parseInt(cartItems[$product[index].textContent].price) * (productsInCart[$product[index].textContent].inCart - value.valueAsNumber);
+          productsInCart[$product[index].textContent].inCart = value.valueAsNumber;
+        }
 
-      const totalPrice = parseInt(totalCost1) + parseInt(cartItems[$producto[index].textContent].price);
-      //   localStorage.setItem('totalCost', parseInt(cartCost) + parseInt(product.price));
-      totalCostDisplay(totalPrice);
+        localStorage.setItem('totalCost', totalPrice);
+        localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
+        totalCostDisplay(totalPrice);
+      } else {
+        $quantityPrice[index].value = 1;
+      }
     });
   });
 }
@@ -109,7 +119,7 @@ function displayCart() {
           </div>
           </th>
           <td class="max-width-q"><input type=number value=${item.inCart} class='quantity width-img' min=1></td>
-          <td class="price_product">${item.price * item.inCart}</td>
+          <td class="price_product">${item.price}</td>
           </tr>
           `;
 
