@@ -60,7 +60,7 @@ function totalCostDisplay(totalCostCart) {
     `;
 }
 
-function detectarCambiosValues() {
+function changeValues() {
   const $quantityPrice = document.querySelectorAll('.quantity');
   const $product = document.querySelectorAll('.nombre');
 
@@ -97,6 +97,53 @@ function detectarCambiosValues() {
   });
 }
 
+function deleteFromLS($element) {
+  console.log(`Borrando ${$element.textContent}...`);
+
+  let product = localStorage.getItem('productsInCart');
+  product = JSON.parse(product);
+  let cartNumbersLS = localStorage.getItem('cartNumbers');
+  cartNumbersLS = JSON.parse(cartNumbersLS);
+  let totalCostLS = localStorage.getItem('totalCost');
+  totalCostLS = JSON.parse(totalCostLS);
+
+  totalCostLS -= (product[$element.textContent].price * product[$element.textContent].inCart);
+  cartNumbersLS -= 1;
+  delete product[$element.textContent];
+
+  localStorage.setItem('totalCost', totalCostLS);
+  localStorage.setItem('productsInCart', JSON.stringify(product));
+  localStorage.setItem('cartNumbers', cartNumbersLS);
+}
+
+function deleteFromPage($product) {
+  $product.remove();
+}
+
+function updateValues() {
+  let totalPrice = localStorage.getItem('totalCost');
+  totalPrice = JSON.parse(totalPrice);
+  let cartNumbersLS = localStorage.getItem('cartNumbers');
+  cartNumbersLS = JSON.parse(cartNumbersLS);
+
+  document.querySelector('.cart-number').textContent = cartNumbersLS;
+  totalCostDisplay(totalPrice);
+}
+
+function deleteProduct() {
+  const $delete = document.querySelectorAll('.delete');
+  const $productName = document.querySelectorAll('.nombre');
+  const $product = document.querySelectorAll('.productItSelf');
+
+  $delete.forEach((element, index) => {
+    element.onclick = () => {
+      deleteFromLS($productName[index]);
+      deleteFromPage($product[index]);
+      updateValues();
+    };
+  });
+}
+
 function displayCart() {
   const totalCostCart = localStorage.getItem('totalCost');
   const cartConfirm = document.querySelector('.reemplazar_carrito');
@@ -110,12 +157,12 @@ function displayCart() {
     cartConfirm.innerHTML = '';
     Object.values(cartItems).map((item) => {
       cartConfirm.innerHTML += `
-          <tr>
+          <tr class="${item.name} productItSelf">
           <th scope="row" class="" style='max-width: 12rem'><img src="../static/product_pics/${item.img}" class="img-cart" alt="dd"></th>
           <th class='text-center'>
           <div class='producto_display'>
           <p class='nombre'>${item.name}</p>
-          <button class='btn-danger btn'>Delete product from cart</button>
+          <button class='btn-danger btn delete'>Delete product from cart</button>
           </div>
           </th>
           <td class="max-width-q"><input type=number value=${item.inCart} class='quantity width-img' min=1></td>
@@ -126,7 +173,8 @@ function displayCart() {
       return null;
     });
     totalCostDisplay(totalCostCart);
-    detectarCambiosValues();
+    changeValues();
+    deleteProduct();
   }
 }
 
