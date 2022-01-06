@@ -4,8 +4,16 @@ const add = document.querySelectorAll('.add-cart');
 const price = document.querySelectorAll('.price');
 const name = document.querySelectorAll('.name');
 const img = document.querySelectorAll('.img');
+const $cart = document.querySelector('#cart');
 
 const productos = [];
+
+function cartAnimation() {
+  $cart.classList.add('scale-up-center');
+  setTimeout(() => {
+    $cart.classList.remove('scale-up-center');
+  }, 600);
+}
 
 function hide($element) {
   $element.classList.add('d-none');
@@ -164,6 +172,7 @@ function deleteProduct() {
       deleteFromPage($product[index]);
       updateValues();
       deleteIfNoProducts();
+      cartAnimation();
     };
   });
 }
@@ -240,6 +249,7 @@ add.forEach((value, index) => {
 
     cartNumbers(productos[index]);
     totalCost(productos[index]);
+    cartAnimation();
   };
 });
 
@@ -268,6 +278,7 @@ if (document.querySelector('#deleteAll')) {
   document.querySelector('#deleteAll').onclick = () => {
     deleteAllProducts();
     updateValues();
+    cartAnimation();
     hide(document.querySelector('#cartDisplay'));
     display(document.querySelector('#nothing'));
   };
