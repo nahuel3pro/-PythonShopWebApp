@@ -6,36 +6,40 @@
 {%block content%}
 <link rel="stylesheet" href="../static/css/styles.css">
 
-<h2 class="mb-5 mt-5 name" style="font-family: 'Libre Baskerville', serif;">
-    {{producto.producto_name}}
-</h2>
+<h2 class="mb-5 mt-5 name" style="font-family: 'Libre Baskerville', serif;">{{producto.producto_name}}</h2>
 
 <div class="grid border border-light">
     <div class="image">
-        <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}" class="img-fluid img-thumbnail">
+        <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}" class="img img-fluid img-thumbnail">
     </div>
 
     <div class="description">
         <h1>{{producto.producto_inf}}</h1>
 
-        <h3 class="price">${{producto.producto_cst}}</h3>
+        <h3>$<span class="price">{{producto.producto_cst}}</span></h3>
 
 
         <div id="talles">
 
             <h2>Talles </h2>
 
-            <div class="d-flex justify-content-around">
+            <div class="d-flex justify-content-space-evenly">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                     <label class="form-check-label" for="flexRadioDefault1">
-                        Default radio
+                        <h4>XL</h4>
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
                     <label class="form-check-label" for="flexRadioDefault2">
-                        Default checked radio
+                        <h4>X</h4>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" checked>
+                    <label class="form-check-label" for="flexRadioDefault3">
+                        <h4>S</h4>
                     </label>
                 </div>
             </div>

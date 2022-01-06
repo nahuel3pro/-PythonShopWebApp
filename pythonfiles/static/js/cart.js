@@ -237,7 +237,7 @@ function markAsUnavailable() {
   const $name = document.querySelectorAll('.name');
   const $add = document.querySelectorAll('.add-cart');
 
-  if (window.location.pathname === '/HomePage') {
+  if (window.location.pathname === '/HomePage' || window.location.pathname.split('/')[1] === 'ProductInfo') {
     let productsInCart = localStorage.getItem('productsInCart');
     productsInCart = JSON.parse(productsInCart);
 
