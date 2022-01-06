@@ -5,8 +5,16 @@ const price = document.querySelectorAll('.price');
 const name = document.querySelectorAll('.name');
 const img = document.querySelectorAll('.img');
 const $cart = document.querySelector('#cart');
+const $carrito = document.querySelector('#carrito');
 
 const productos = [];
+
+function cartAnimationWhite() {
+  $carrito.classList.add('text-white');
+  setTimeout(() => {
+    $carrito.classList.remove('text-white');
+  }, 600);
+}
 
 function cartAnimation() {
   $cart.classList.add('scale-up-center');
@@ -250,6 +258,7 @@ add.forEach((value, index) => {
     cartNumbers(productos[index]);
     totalCost(productos[index]);
     cartAnimation();
+    cartAnimationWhite();
   };
 });
 
