@@ -1,0 +1,24 @@
+{
+  "name": "tiendaproyecto",
+  "version": "1.0.0",
+  "description": "Python web app proyect",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nahuel3pro/-PythonShopWebApp.git"
+  },
+  "author": "Nahuel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nahuel3pro/-PythonShopWebApp/issues"
+  },
+  "homepage": "https://github.com/nahuel3pro/-PythonShopWebApp#readme",
+  "devDependencies": {
+    "eslint": "^8.6.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4"
+  }
+}

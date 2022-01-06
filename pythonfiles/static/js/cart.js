@@ -1,162 +1,278 @@
-console.log('Loaded')
+/* eslint-disable max-len */
+/* eslint-disable radix */
+const add = document.querySelectorAll('.add-cart');
+const price = document.querySelectorAll('.price');
+const name = document.querySelectorAll('.name');
+const img = document.querySelectorAll('.img');
 
-let carts = document.querySelectorAll('.add-cart');
-let price = document.querySelectorAll('.price')
-let name = document.querySelectorAll('.name')
-let img = document.querySelectorAll('.img')
+const productos = [];
 
-let quantity_p = document.getElementsByClassName('quantity')
-
-console.log(quantity_p)
-// Rellenando valores de los productos en una variable
-
-let products = []
-
-for (let i = 0; i < price.length; i++) {
-    products.push(
-        {'price': price[i].textContent, 'img': img[i].getAttribute('alt'),
-                 'name': name[i].textContent, 'inCart': 0}
-    )
+function hide($element) {
+  $element.classList.add('d-none');
 }
 
-// -----------------------------------------------------
-
-
-// Cuando presionan en añadir al carrito
-for (let i = 0; i < carts.length; i++) {
-    carts[i].addEventListener('click', () => {
-        // Cuando le dan click al botón, llama a las dos funciones
-        
-        cartNumbers(products[i]);
-        totalCost(products[i]);
-
-
-    })
+function display($element) {
+  $element.classList.remove('d-none');
 }
 
-function cartNumbers(product) {
-    let productNumbers = localStorage.getItem('cartNumbers');
-
-    productNumbers = parseInt(productNumbers);
-
-    if (productNumbers) {
-        localStorage.setItem('cartNumbers', productNumbers + 1);
-        document
-            .querySelector('.cart-number')
-            .textContent = productNumbers + 1;
-    } else {
-        localStorage.setItem('cartNumbers', 1);
-        document
-            .querySelector('.cart-number')
-            .textContent = 1;
-    }
-
-    setItems(product);
-
-}
-
-// Crando almacenamiento de los productos en el local storage
 function setItems(product) {
-    let cartItems = localStorage.getItem('productsInCart');
-    cartItems = JSON.parse(cartItems);
+  let cartItems = localStorage.getItem('productsInCart');
+  cartItems = JSON.parse(cartItems);
 
-    if (cartItems != null) {
+  if (cartItems != null && cartItems[product.name] === undefined) {
+    cartItems = {
+      ...cartItems,
+      [product.name]: product,
+    };
+    product.inCart = 1;
+  } else {
+    product.inCart = 1;
 
-        if (cartItems[product.name] == undefined) {
-            cartItems = {
-                ...cartItems,
-                [product.name]: product
-            }
-        }
+    cartItems = {
+      [product.name]: product,
+    };
+  }
 
-        cartItems[product.name].inCart += 1;
-
-    } else {
-        product.inCart = 1;
-
-        cartItems = {
-            [product.name]: product
-        }
-
-    }
-
-    localStorage.setItem('productsInCart', JSON.stringify(cartItems));
+  localStorage.setItem('productsInCart', JSON.stringify(cartItems));
 }
 
-//Cargando los productos disponibles en el local storage
+function cartNumbers(producto) {
+  let productNumbers = localStorage.getItem('cartNumbers');
+
+  productNumbers = parseInt(productNumbers, 10);
+
+  if (productNumbers) {
+    localStorage.setItem('cartNumbers', productNumbers + 1);
+    document.querySelector('.cart-number').textContent = productNumbers + 1;
+  } else {
+    localStorage.setItem('cartNumbers', 1);
+    document.querySelector('.cart-number').textContent = 1;
+  }
+
+  setItems(producto);
+}
+
 function loadCartNumbers() {
-    let productNumbers = localStorage.getItem('cartNumbers');
+  const productNumbers = localStorage.getItem('cartNumbers');
 
-    if (productNumbers) {
-        document
-            .querySelector('.cart-number')
-            .textContent = productNumbers;
-    }
+  if (productNumbers) {
+    document.querySelector('.cart-number').textContent = productNumbers;
+  }
 }
 
-//Poniendo el precio total en el local storage
-// function totalCost(product) {
-//     let cartCost = localStorage.getItem('totalCost');
+function totalCostDisplay(totalCostCart) {
+  const total = document.querySelector('.total');
 
-//     if (cartCost != null) {
-//         localStorage.setItem('totalCost', parseInt(cartCost) + parseInt(product.price));
-//     } else {
-//         localStorage.setItem('totalCost', parseInt(product.price));
-//     }
+  total.innerHTML = `
+    <h2>Total: $${totalCostCart}</h2>
+    `;
+}
 
-// }
+function changeValues() {
+  const $quantityPrice = document.querySelectorAll('.quantity');
+  const $product = document.querySelectorAll('.nombre');
+
+  // Los productos en el carrito y sus propiedades (Se usa el inCart para saber su cantidad ordenada)
+  let cartItems = localStorage.getItem('productsInCart');
+  cartItems = JSON.parse(cartItems);
+
+  $quantityPrice.forEach((value, index) => {
+    value.addEventListener('change', () => {
+      if (value.valueAsNumber > 0 && value.valueAsNumber < 1000000) {
+        // Precio total en local storage
+        const costoTotal = localStorage.getItem('totalCost');
+        // Los productos en el carrito y sus propiedades (Se usa el inCart para saber su cantidad ordenada)
+        let productsInCart = localStorage.getItem('productsInCart');
+        productsInCart = JSON.parse(productsInCart);
+
+        let totalPrice;
+
+        if (value.valueAsNumber > productsInCart[$product[index].textContent].inCart) {
+          totalPrice = parseInt(costoTotal) + parseInt(cartItems[$product[index].textContent].price) * (value.valueAsNumber - productsInCart[$product[index].textContent].inCart);
+          productsInCart[$product[index].textContent].inCart = value.valueAsNumber;
+        } else {
+          totalPrice = parseInt(costoTotal) - parseInt(cartItems[$product[index].textContent].price) * (productsInCart[$product[index].textContent].inCart - value.valueAsNumber);
+          productsInCart[$product[index].textContent].inCart = value.valueAsNumber;
+        }
+
+        localStorage.setItem('totalCost', totalPrice);
+        localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
+        totalCostDisplay(totalPrice);
+      } else {
+        $quantityPrice[index].value = 1;
+      }
+    });
+  });
+}
+
+function deleteAllProducts() {
+  localStorage.removeItem('totalCost');
+  localStorage.removeItem('cartNumbers');
+  localStorage.removeItem('productsInCart');
+}
+
+function deleteIfNoProducts() {
+  let cartNumbersLS = localStorage.getItem('cartNumbers');
+  cartNumbersLS = JSON.parse(cartNumbersLS);
+
+  if (!cartNumbersLS) {
+    deleteAllProducts();
+    hide(document.querySelector('#cartDisplay'));
+    display(document.querySelector('#nothing'));
+  }
+}
+
+function deleteFromLS($element) {
+  let product = localStorage.getItem('productsInCart');
+  product = JSON.parse(product);
+  let cartNumbersLS = localStorage.getItem('cartNumbers');
+  cartNumbersLS = JSON.parse(cartNumbersLS);
+  let totalCostLS = localStorage.getItem('totalCost');
+  totalCostLS = JSON.parse(totalCostLS);
+
+  totalCostLS -= (product[$element.textContent].price * product[$element.textContent].inCart);
+  cartNumbersLS -= 1;
+  delete product[$element.textContent];
+
+  localStorage.setItem('totalCost', totalCostLS);
+  localStorage.setItem('productsInCart', JSON.stringify(product));
+  localStorage.setItem('cartNumbers', cartNumbersLS);
+}
+
+function deleteFromPage($product) {
+  $product.remove();
+}
+
+function updateValues() {
+  let totalPrice = localStorage.getItem('totalCost');
+  totalPrice = JSON.parse(totalPrice);
+  let cartNumbersLS = localStorage.getItem('cartNumbers');
+  cartNumbersLS = JSON.parse(cartNumbersLS);
+
+  document.querySelector('.cart-number').textContent = cartNumbersLS;
+  totalCostDisplay(totalPrice);
+}
+
+function deleteProduct() {
+  const $delete = document.querySelectorAll('.delete');
+  const $productName = document.querySelectorAll('.nombre');
+  const $product = document.querySelectorAll('.productItSelf');
+
+  $delete.forEach((element, index) => {
+    element.onclick = () => {
+      deleteFromLS($productName[index]);
+      deleteFromPage($product[index]);
+      updateValues();
+      deleteIfNoProducts();
+    };
+  });
+}
+
+function displayCart() {
+  const totalCostCart = localStorage.getItem('totalCost');
+  const cartConfirm = document.querySelector('.reemplazar_carrito');
+  let cartItems = localStorage.getItem('productsInCart');
+  cartItems = JSON.parse(cartItems);
+
+  if (cartItems && cartConfirm) {
+    display(document.querySelector('#cartDisplay'));
+    hide(document.querySelector('#nothing'));
+
+    cartConfirm.innerHTML = '';
+    Object.values(cartItems).map((item) => {
+      cartConfirm.innerHTML += `
+      <tr class="${item.name} productItSelf">
+      <th scope="row" class="" style='max-width: 12rem'><img src="../static/product_pics/${item.img}" class="img-cart" alt="dd"></th>
+      <th class='text-center'>
+      <div class='producto_display'>
+      <p class='nombre'>${item.name}</p>
+      <button class='btn-danger btn delete'>Delete product from cart</button>
+      </div>
+      </th>
+          <td class="max-width-q"><input type=number value=${item.inCart} class="mt-2 quantity width-img" min=1></td>
+          <td class="price_product">${item.price}</td>
+          </tr>
+          `;
+
+      return null;
+    });
+    totalCostDisplay(totalCostCart);
+    changeValues();
+    deleteProduct();
+  } else if (!cartItems) {
+    hide(document.querySelector('#cartDisplay'));
+    display(document.querySelector('#nothing'));
+  }
+}
 
 function totalCost(product) {
-    let cartCost = localStorage.getItem('totalCost');
-    let quantity_p = document.getElementsByClassName('quantity')
+  const cartCost = localStorage.getItem('totalCost');
+  //   const quantityPrice = document.getElementsByClassName('quantity');
 
-    if (cartCost != null) {
-        localStorage.setItem('totalCost', parseInt(cartCost) + parseInt(product.price));
-    } else {
-        localStorage.setItem('totalCost', parseInt(product.price));
-    }
-
+  if (cartCost != null) {
+    localStorage.setItem('totalCost', parseInt(cartCost) + parseInt(product.price));
+  } else {
+    localStorage.setItem('totalCost', parseInt(product.price));
+  }
 }
 
-//Cargando productos ya disponibles en el local storage
-function displayCart() {
-    let cartItems = localStorage.getItem('productsInCart');
-    cartItems = JSON.parse(cartItems);
+function markAsUnavailable() {
+  const $name = document.querySelectorAll('.name');
+  const $add = document.querySelectorAll('.add-cart');
 
+  if (window.location.pathname === '/HomePage') {
+    let productsInCart = localStorage.getItem('productsInCart');
+    productsInCart = JSON.parse(productsInCart);
 
-    let cartCost = localStorage.getItem('totalCost');
+    Object.keys(productsInCart).forEach((productNameInCart) => {
+      $name.forEach((value, index) => {
+        if (value.textContent === productNameInCart) {
+          $add[index].classList.add('disabled');
+        }
+      });
+    });
+  }
+}
 
-    let cart_confirm = document.querySelector('.reemplazar_carrito');
-    let total = document.querySelector('.total');
+add.forEach((value, index) => {
+  add[index].onclick = () => {
+    add[index].classList.add('disabled');
 
-    console.log(cartItems);
+    cartNumbers(productos[index]);
+    totalCost(productos[index]);
+  };
+});
 
-    if (cartItems && cart_confirm) {
-        cart_confirm.innerHTML = '';
-        Object
-            .values(cartItems)
-            .map(item => {
-                cart_confirm.innerHTML += `
-                <tr>
-                    <th scope="row" class="" style='max-width: 12rem'><img src="../static/product_pics/${item.img}" class="img-cart" alt="dd"></th>
-                    <th class='text-center'>
-                    <div class='producto_display'>
-                        <p class='nombre'>${item.name}</p>
-                        <button class='btn-danger btn'>Delete product from cart</button>
-                    </div>
-                        </th>
-                    <td class="max-width-q"><input type=number value=${item.inCart} class='quantity width-img'></td>
-                    <td class="price_product">${item.price * item.inCart}</td>
-                </tr>
-                            `
-            });
+for (let i = 0; i < add.length; i += 1) {
+  productos.push(
+    {
+      price: price[i].textContent,
+      img: img[i].getAttribute('alt'),
+      name: name[i].textContent,
+      inCart: 0,
+    },
+  );
+}
 
-        total.innerHTML += `
-        <h2>Total: $${cartCost}</h2>
-        `
+if (document.querySelector('#order')) {
+  document.querySelector('#order').onclick = () => {
+    deleteAllProducts();
+    updateValues();
+    display(document.querySelector('#thanks'));
+    hide(document.querySelector('#cartDisplay'));
+    hide(document.querySelector('#nothing'));
+  };
+}
 
-    }
+if (document.querySelector('#deleteAll')) {
+  document.querySelector('#deleteAll').onclick = () => {
+    deleteAllProducts();
+    updateValues();
+    hide(document.querySelector('#cartDisplay'));
+    display(document.querySelector('#nothing'));
+  };
 }
 
 loadCartNumbers();
 displayCart();
+markAsUnavailable();

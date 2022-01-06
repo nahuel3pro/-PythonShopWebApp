@@ -1,8 +1,6 @@
 {%extends 'base.html'%}
 
-{%block title%}
-| {{producto.producto_name}}
-{%endblock%}
+{%block title%}{{producto.producto_name}}{%endblock%}
 
 
 {%block content%}
@@ -14,7 +12,7 @@
 
 <div class="grid border border-light">
     <div class="image">    
-        <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}">
+        <img src="../static/product_pics/{{producto.producto_img}}" alt="{{producto.producto_img}}" class="img-fluid img-thumbnail">
     </div>
     
     <div class="description">
